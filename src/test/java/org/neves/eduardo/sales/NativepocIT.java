@@ -1,4 +1,4 @@
-package org.neves.eduardo.sales.quarkus;
+package org.neves.eduardo.sales;
 
 import io.quarkus.test.junit.NativeImageTest;
 
