@@ -26,4 +26,5 @@ public class ProductService {
     public Optional<Product> find(ObjectId id) {
         return Product.findByIdOptional(id);
     }
+
 }

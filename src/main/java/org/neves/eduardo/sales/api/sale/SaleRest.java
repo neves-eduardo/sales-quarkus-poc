@@ -1,5 +1,6 @@
 package org.neves.eduardo.sales.api.sale;
 
+import org.bson.types.ObjectId;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 import org.neves.eduardo.sales.business.sale.SaleService;
 import org.neves.eduardo.sales.model.sale.Sale;
@@ -24,10 +25,15 @@ public class SaleRest {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{registration}")
-    public Response find(@PathParam String registration) {
-        //TODO find sale
-        return Response.ok().build();
+    @Path("/{id}")
+    public Response find(@PathParam String id) {
+        return Response.ok(service.findById(new ObjectId(id))).build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findAll() {
+        return Response.ok(service.findAll()).build();
     }
 
 }

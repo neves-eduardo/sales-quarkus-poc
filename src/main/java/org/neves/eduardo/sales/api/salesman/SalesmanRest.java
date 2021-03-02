@@ -26,6 +26,12 @@ public class SalesmanRest {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    public Response findAll() {
+        return Response.ok(service.findAll()).build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
     @Path("/{registration}")
     public Response find(@PathParam String registration) {
         Optional<Salesman> salesman = service.find(registration);

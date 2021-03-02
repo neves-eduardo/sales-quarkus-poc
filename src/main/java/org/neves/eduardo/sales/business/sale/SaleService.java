@@ -5,24 +5,19 @@ import org.neves.eduardo.sales.business.product.ProductService;
 import org.neves.eduardo.sales.business.salesman.SalesmanService;
 import org.neves.eduardo.sales.model.product.Product;
 import org.neves.eduardo.sales.model.sale.Sale;
-import org.neves.eduardo.sales.model.salesman.Salesman;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
-
-import static io.quarkus.mongodb.panache.PanacheMongoEntityBase.count;
 
 @ApplicationScoped
 public class SaleService {
 
     @Inject
     SalesmanService salesmanService;
-
-    @Inject
-    ProductService productService;
 
     public Sale create(Sale sale) {
         checkForSalesmanExistence(sale.getSalesmanId());
@@ -32,6 +27,14 @@ public class SaleService {
         sale.setTotalValue(totalPrice);
         Sale.persist(sale);
         return sale;
+    }
+
+    public Sale findById(ObjectId id) {
+        return Sale.findById(id);
+    }
+
+    public List<Sale> findAll() {
+        return Sale.findAll().list();
     }
 
     private BigDecimal calculateProductsTotalPrice(List<Product> existentProducts) {
@@ -52,5 +55,4 @@ public class SaleService {
                         .orElseThrow(() -> new NoSuchElementException(String.format("Product not found with Id [%s]", productIds))))
                 .collect(Collectors.toList());
     }
-
 }
