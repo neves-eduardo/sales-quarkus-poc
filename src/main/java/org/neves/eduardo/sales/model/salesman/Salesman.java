@@ -3,6 +3,8 @@ package org.neves.eduardo.sales.model.salesman;
 import io.quarkus.mongodb.panache.MongoEntity;
 import io.quarkus.mongodb.panache.PanacheMongoEntity;
 
+import java.util.List;
+
 @MongoEntity(collection = "salesmen")
 public class Salesman extends PanacheMongoEntity {
 
@@ -15,6 +17,10 @@ public class Salesman extends PanacheMongoEntity {
     }
 
     public Salesman() {
+    }
+
+    public static List<Salesman> findAllList() {
+        return findAll().list();
     }
 
     public String getName() {

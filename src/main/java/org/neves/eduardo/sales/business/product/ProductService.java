@@ -1,8 +1,10 @@
 package org.neves.eduardo.sales.business.product;
 
+import org.bson.types.ObjectId;
 import org.neves.eduardo.sales.model.product.Product;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.util.Optional;
 
 @ApplicationScoped
 public class ProductService {
@@ -21,4 +23,7 @@ public class ProductService {
         Product.deleteById(new org.bson.types.ObjectId(id));
     }
 
+    public Optional<Product> find(ObjectId id) {
+        return Product.findByIdOptional(id);
+    }
 }
