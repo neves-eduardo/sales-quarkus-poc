@@ -23,6 +23,10 @@ public class Sale extends PanacheMongoEntity {
         this.totalValue = totalValue;
     }
 
+    public static List<Sale> findList(String attribute, ObjectId id) {
+        return Sale.find(attribute, id).list();
+    }
+
     public ObjectId getSalesmanId() {
         return salesmanId;
     }

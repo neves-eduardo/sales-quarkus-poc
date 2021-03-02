@@ -36,6 +36,20 @@ public class SalesmanRest {
         return Response.ok(salesman.get()).build();
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/most-sales}")
+    public Response findMostSales(@PathParam String registration) {
+        return Response.ok(service.listSalesmanBySales()).build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/most-value-sold}")
+    public Response findMostValueSold(@PathParam String registration) {
+        return Response.ok(service.listSalesmanByValueSold()).build();
+    }
+
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)

@@ -6,6 +6,7 @@ import org.neves.eduardo.sales.model.sale.Sale;
 import org.neves.eduardo.sales.model.salesman.Salesman;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -54,10 +55,32 @@ public class SalesmanService {
         return sortSalesmenByNumberOfSales(salesmanAndSales);
     }
 
+    public Map<Salesman, BigDecimal> listSalesmanByValueSold() {
+        List<Salesman> salesmen = Salesman.findAllList();
+
+        Map<Salesman, BigDecimal> salesmanAndSales = new HashMap<>();
+        salesmen
+                .forEach(salesman -> salesmanAndSales.put(salesman, getTotalSoldBySalesman(salesman)));
+
+        return sortBySaleValue(salesmanAndSales);
+    }
+
+    private BigDecimal getTotalSoldBySalesman(Salesman salesman) {
+        List<Sale> sales = Sale.findList("salesmanId",salesman.id);
+        return sales.stream().map(Sale::getTotalValue).reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
     private HashMap<Salesman, Long> sortSalesmenByNumberOfSales(Map<Salesman, Long> salesmanAndSales) {
         return salesmanAndSales.entrySet()
                 .stream()
                 .sorted((Map.Entry.<Salesman, Long>comparingByValue().reversed()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+    }
+
+    private HashMap<Salesman, BigDecimal> sortBySaleValue(Map<Salesman, BigDecimal> salesmanAndSales) {
+        return salesmanAndSales.entrySet()
+                .stream()
+                .sorted((Map.Entry.<Salesman, BigDecimal>comparingByValue().reversed()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
     }
 
